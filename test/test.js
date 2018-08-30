@@ -1,5 +1,4 @@
 const crc = require('bindings')('cyclic_rc');
-const long = require('long');
 const assert = require('assert');
 
 const values = [{

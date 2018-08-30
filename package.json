@@ -2,7 +2,6 @@
   "devDependencies": {
     "benchmark": "^2.1.4",
     "crc": "^3.5.0",
-    "long": "^4.0.0",
     "microtime": "^2.1.8",
     "nan": "^2.10.0"
   },
@@ -23,5 +22,5 @@
   },
   "name": "cyclic-rc",
   "main": "index.js",
-  "version": "1.0.3"
+  "version": "1.0.4"
 }
