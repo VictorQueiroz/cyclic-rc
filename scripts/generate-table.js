@@ -19,8 +19,21 @@ const buildDirectory = __dirname + '/../build';
 if(!fs.existsSync(buildDirectory))
     fs.mkdirSync(buildDirectory);
 
-const compiler = os.platform() == 'linux' ? 'cc' : 'cl';
-const outputFlag = os.platform() == 'linux' ? '-o' : '-Fo';
+let compiler = '';
+if(os.platform() === 'linux' || os.platform() === 'darwin') {
+    compiler = 'cc';
+} else if(os.platform() === 'win32') {
+    compiler = 'cl';
+} else {
+    throw new Error(`Could not find compiler for platform ${os.platform()}`);
+}
+
+let outputFlag;
+if(os.platform() === 'linux' || os.platform() === 'darwin') {
+    outputFlag = '-o';
+} else if(os.platform() === 'win32') {
+    outputFlag = '-Fo';
+}
 
 spawn(compiler, [
     ...files,
