@@ -5,6 +5,7 @@
     "microtime": "^2.1.8",
     "nan": "^2.10.0"
   },
+  "typings": "typings.d.ts",
   "dependencies": {
     "bindings": "^1.3.0"
   },
@@ -25,5 +26,5 @@
   },
   "name": "cyclic-rc",
   "main": "index.js",
-  "version": "1.0.4"
+  "version": "1.0.7"
 }
