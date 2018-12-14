@@ -10,6 +10,9 @@
   },
   "keywords": [
     "crc",
+    "crc8",
+    "crc32",
+    "crc64",
     "cyclic redundancy check",
     "bindings"
   ],
