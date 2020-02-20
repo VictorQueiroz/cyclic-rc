@@ -23,6 +23,10 @@
     "cyclic redundancy check",
     "bindings"
   ],
+  "files": [
+      "src",
+      "deps"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/VictorQueiroz/cyclic-rc.git"
