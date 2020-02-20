@@ -4,3 +4,6 @@ indent_style = space
 
 [Makefile]
 indent_style = tab
+
+[package.json]
+indent_size = 2
