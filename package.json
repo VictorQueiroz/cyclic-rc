@@ -1,13 +1,19 @@
 {
   "devDependencies": {
+    "@types/benchmark": "^1.0.31",
+    "@types/crc": "^3.4.0",
+    "@types/node": "^13.7.4",
     "benchmark": "^2.1.4",
     "crc": "^3.5.0",
-    "microtime": "^2.1.8"
+    "microtime": "^3.0.0",
+    "sarg": "^3.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
   },
-  "typings": "typings.d.ts",
   "dependencies": {
     "bindings": "^1.3.0",
-    "nan": "^2.12.1"
+    "cmake-js": "^6.0.0",
+    "nan": "^2.14.0"
   },
   "keywords": [
     "crc",
@@ -22,9 +28,9 @@
     "url": "https://github.com/VictorQueiroz/cyclic-rc.git"
   },
   "scripts": {
-    "install": "node scripts/generate-table.js && node-gyp rebuild"
+    "install": "node scripts/generate-table.js && npx cmake-js compile"
   },
   "name": "cyclic-rc",
   "main": "index.js",
-  "version": "1.0.8"
+  "version": "2.0.0"
 }
