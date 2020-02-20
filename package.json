@@ -24,8 +24,10 @@
     "bindings"
   ],
   "files": [
-      "src",
-      "deps"
+    "src",
+    "deps",
+    "index.d.ts",
+    "index.js"
   ],
   "repository": {
     "type": "git",
