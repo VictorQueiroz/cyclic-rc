@@ -1,0 +1,20 @@
+CMAKE_BUILD_TYPE := Debug
+COMPILER_NAME := GCC
+CMAKE_CXX_COMPILER := g++
+CMAKE_C_COMPILER := gcc
+PWD := $(PWD)
+CMAKE_BUILD_FOLDER := $(PWD)/tmp/cmake-build-CLI-$(COMPILER_NAME)-$(CMAKE_BUILD_TYPE)
+
+configure:
+	mkdir -pv $(CMAKE_BUILD_FOLDER) && \
+	cd $(CMAKE_BUILD_FOLDER) && \
+	cmake \
+		-DCMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
+		-DCMAKE_CXX_COMPILER=$(CMAKE_CXX_COMPILER) \
+		-DCMAKE_C_COMPILER=$(CMAKE_C_COMPILER) \
+		-DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
+		$(PWD) && \
+	ln -svf $(CMAKE_BUILD_FOLDER)/compile_commands.json $(PWD)/compile_commands.json
+
+build: configure
+	cd $(CMAKE_BUILD_FOLDER) && make
