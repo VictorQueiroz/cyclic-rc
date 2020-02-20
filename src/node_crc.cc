@@ -1,165 +1,132 @@
-#include <nan.h>
 #include "node_crc.h"
+
+#include <nan.h>
 #include <crc/checksum.h>
 
 using namespace v8;
 
-bool GetUnsignedString(Local<Value> arg, unsigned char** output_ptr, int* length_ptr) {
+bool CheckString(Local<Value> arg) {
     if(!arg->IsString()) {
-        Nan::ThrowError("first argument must be a string");
+        Nan::ThrowError("First argument must always be a string");
         return false;
     }
-
-    Local<String> string = Local<String>::Cast(arg);
-    *length_ptr = string->Utf8Length();
-    int length = *length_ptr;
-    char* buffer = (char*) calloc(1, length);
-    string->WriteUtf8(buffer, length);
-
-    *output_ptr = (unsigned char*) calloc(1, length);
-    memcpy(*output_ptr, buffer, length);
-
-    free(buffer);
     return true;
 }
 
 NAN_METHOD(Crc::Crc8) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) {
+        return;
+    }
 
-    uint8_t result = crc_8(buffer, length);
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+
+    uint8_t result = crc_8(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc16) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
-
-    uint16_t result = crc_16(buffer, length);
-    free(buffer);
+    if(!CheckString(info[0])) {
+        return;
+    }
+    Nan::Utf8String input(info[0]);
+    uint16_t result = crc_16(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc32) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) {
+        return;
+    }
 
-    uint32_t result = crc_32(buffer, length);
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+    uint32_t result = crc_32(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc64_ECMA) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) {
+        return;
+    }
 
-    uint64_t result = crc_64_ecma(buffer, length);
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+    uint64_t result = crc_64_ecma(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc64_WE) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) return;
 
-    uint64_t result = crc_64_we(buffer, length);
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+    uint64_t result = crc_64_we(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_DNP) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
-
-    uint16_t result = crc_dnp(buffer, length);
-
-    if(buffer != nullptr) {
-        free(buffer);
+    if(!CheckString(info[0])) {
+        return;
     }
+
+    Nan::Utf8String input(info[0]);
+    uint16_t result = crc_dnp(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_Modbus) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) return;
 
-    uint16_t result = crc_modbus(buffer, length);
-
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+    uint16_t result = crc_modbus(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_SICK) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) return;
 
-    uint16_t result = crc_sick(buffer, length);
-
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+    uint16_t result = crc_sick(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_XModem) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) return;
 
-    uint16_t result = crc_xmodem(buffer, length);
-
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+    uint16_t result = crc_xmodem(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_CCITT_1D0F) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) return;
 
-    uint16_t result = crc_ccitt_1d0f(buffer, length);
-
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+    uint16_t result = crc_ccitt_1d0f(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_CCITT_FFFF) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
+    if(!CheckString(info[0])) return;
 
-    uint16_t result = crc_ccitt_ffff(buffer, length);
-
-    free(buffer);
+    Nan::Utf8String input(info[0]);
+    uint16_t result = crc_ccitt_ffff(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_Kermit) {
-    unsigned char* buffer;
-    int length;
-    GetUnsignedString(info[0], &buffer, &length);
-
-    uint16_t result = crc_kermit(buffer, length);
-
-    free(buffer);
+    if(!CheckString(info[0])) return;
+    
+    Nan::Utf8String input(info[0]);
+    uint16_t result = crc_kermit(reinterpret_cast<uint8_t*>(*input), input.length());
 
     info.GetReturnValue().Set(Nan::New<Number>(result));
 }
