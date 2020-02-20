@@ -1,2 +1,6 @@
 node_modules/
 build/
+.history/
+tmp/
+.vscode/
+compile_commands.json
