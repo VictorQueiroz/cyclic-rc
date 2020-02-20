@@ -1,4 +1,4 @@
-declare module "cyclic-rc" {
+declare namespace crc {
     export function crc_8(input: string): number;
     export function crc_16(input: string): number;
     export function crc_32(input: string): number;
@@ -12,3 +12,5 @@ declare module "cyclic-rc" {
     export function crc_ccitt_ffff(input: string): number;
     export function crc_kermit(input: string): number;
 }
+
+export default crc;
