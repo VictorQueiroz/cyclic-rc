@@ -1,4 +1,4 @@
-const crc = require('..');
+const crc = require('../index');
 const assert = require('assert');
 
 const values = [{
