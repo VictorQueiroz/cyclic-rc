@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.4)
 project(cyclic_rc)
 
+set(CMAKE_CXX_STANDARD 11)
+
 add_subdirectory(deps/libcrc)
 
 set(NODE_SOURCE_FILES src/node_crc.cc)
