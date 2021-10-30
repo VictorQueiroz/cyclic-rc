@@ -4,3 +4,5 @@ build/
 tmp/
 .vscode/
 compile_commands.json
+.idea/
+cmake-build-*/

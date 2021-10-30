@@ -3,135 +3,149 @@
 #include <nan.h>
 #include <crc/checksum.h>
 
-using namespace v8;
-
-bool CheckString(Local<Value> arg) {
-    if(!arg->IsString()) {
-        Nan::ThrowError("First argument must always be a string");
-        return false;
-    }
+bool GetArgument(v8::Local<v8::Value> arg, std::string& out) {
+    if(!arg->IsString()) return false;
+    auto length = Nan::DecodeBytes(arg);
+    char buffer[length];
+    Nan::DecodeWrite(buffer, length, arg);
+    out = std::string(buffer,length);
     return true;
 }
 
 NAN_METHOD(Crc::Crc8) {
-    if(!CheckString(info[0])) {
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
         return;
     }
 
-    Nan::Utf8String input(info[0]);
+    uint8_t result = crc_8(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    uint8_t result = crc_8(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc16) {
-    if(!CheckString(info[0])) {
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
         return;
     }
-    Nan::Utf8String input(info[0]);
-    uint16_t result = crc_16(reinterpret_cast<uint8_t*>(*input), input.length());
+    uint16_t result = crc_16(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc32) {
-    if(!CheckString(info[0])) {
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
         return;
     }
+    uint32_t result = crc_32(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint32_t result = crc_32(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc64_ECMA) {
-    if(!CheckString(info[0])) {
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
         return;
     }
+    uint64_t result = crc_64_ecma(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint64_t result = crc_64_ecma(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc64_WE) {
-    if(!CheckString(info[0])) return;
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
+        return;
+    }
+    uint64_t result = crc_64_we(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint64_t result = crc_64_we(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_DNP) {
-    if(!CheckString(info[0])) {
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
         return;
     }
+    uint16_t result = crc_dnp(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint16_t result = crc_dnp(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_Modbus) {
-    if(!CheckString(info[0])) return;
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
+        return;
+    }
+    uint16_t result = crc_modbus(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint16_t result = crc_modbus(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_SICK) {
-    if(!CheckString(info[0])) return;
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
+        return;
+    }
+    uint16_t result = crc_sick(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint16_t result = crc_sick(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_XModem) {
-    if(!CheckString(info[0])) return;
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
+        return;
+    }
+    uint16_t result = crc_xmodem(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint16_t result = crc_xmodem(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_CCITT_1D0F) {
-    if(!CheckString(info[0])) return;
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
+        return;
+    }
+    uint16_t result = crc_ccitt_1d0f(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint16_t result = crc_ccitt_1d0f(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_CCITT_FFFF) {
-    if(!CheckString(info[0])) return;
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
+        return;
+    }
+    uint16_t result = crc_ccitt_ffff(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    Nan::Utf8String input(info[0]);
-    uint16_t result = crc_ccitt_ffff(reinterpret_cast<uint8_t*>(*input), input.length());
-
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
 NAN_METHOD(Crc::Crc_Kermit) {
-    if(!CheckString(info[0])) return;
-    
-    Nan::Utf8String input(info[0]);
-    uint16_t result = crc_kermit(reinterpret_cast<uint8_t*>(*input), input.length());
+    std::string input;
+    if(!GetArgument(info[0],input)) {
+        Nan::ThrowError("First argument must be a valid string");
+        return;
+    }
+    uint16_t result = crc_kermit(reinterpret_cast<const uint8_t*>(input.c_str()), input.length());
 
-    info.GetReturnValue().Set(Nan::New<Number>(result));
+    info.GetReturnValue().Set(Nan::New<v8::Number>(result));
 }
 
-void Crc::Init(Local<Object> exports) {
+void Crc::Init(v8::Local<v8::Object> exports) {
     Nan::SetMethod(exports, "crc_8", Crc8);
     Nan::SetMethod(exports, "crc_16", Crc16);
     Nan::SetMethod(exports, "crc_32", Crc32);
@@ -146,4 +160,4 @@ void Crc::Init(Local<Object> exports) {
     Nan::SetMethod(exports, "crc_kermit", Crc_Kermit);
 }
 
-NODE_MODULE(cyclic_rc, Crc::Init);
+NODE_MODULE(cyclic_rc, Crc::Init)

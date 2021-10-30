@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 2.4)
+cmake_minimum_required(VERSION 3.13)
 project(cyclic_rc)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 add_subdirectory(deps/libcrc)
 
@@ -14,7 +14,7 @@ endif()
 
 add_library(cyclic_rc SHARED ${NODE_SOURCE_FILES})
 target_link_libraries(cyclic_rc PRIVATE ${CMAKE_JS_LIB} crc)
-target_include_directories(cyclic_rc PRIVATE node_modules/nan $ENV{NODE_PATH}/include/node)
+target_include_directories(cyclic_rc PRIVATE node_modules/nan $ENV{NODE_INSTALL_DIR}/include/node)
 
 if(CMAKE_JS_VERSION)
     set_target_properties(cyclic_rc PROPERTIES PREFIX "" SUFFIX ".node")

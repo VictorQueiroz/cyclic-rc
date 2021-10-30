@@ -73,16 +73,16 @@ for(let i = 0; i < values.length; i++) {
     let crcffff = crc.crc_ccitt_ffff(values[i].value);
     let crckermit = crc.crc_kermit(values[i].value);
 
-    assert(values[i].crc8 == crc8);
-    assert(values[i].crc16 == crc16);
-    assert(values[i].crc32 == crc32);
-    assert(values[i].crc64_ecma == crc64_ecma);
-    assert(values[i].crc64_we == crc64_we);
-    assert(values[i].crcdnp == crcdnp);
-    assert(values[i].crcmodbus == crcmodbus);
-    assert(values[i].crcsick == crcsick);
-    assert(values[i].crcxmodem == crcxmodem);
-    assert(values[i].crc1d0f == crc1d0f);
-    assert(values[i].crcffff == crcffff);
-    assert(values[i].crckermit == crckermit);
+    assert(values[i].crc8 === crc8);
+    assert(values[i].crc16 === crc16);
+    assert(values[i].crc32 === crc32);
+    assert(values[i].crc64_ecma === crc64_ecma);
+    assert(values[i].crc64_we === crc64_we);
+    assert(values[i].crcdnp === crcdnp);
+    assert(values[i].crcmodbus === crcmodbus);
+    assert(values[i].crcsick === crcsick);
+    assert(values[i].crcxmodem === crcxmodem);
+    assert(values[i].crc1d0f === crc1d0f);
+    assert(values[i].crcffff === crcffff);
+    assert(values[i].crckermit === crckermit);
 }

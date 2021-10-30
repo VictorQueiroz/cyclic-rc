@@ -11,9 +11,9 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "bindings": "^1.5.0",
-    "cmake-js": "^6.1.0",
-    "nan": "^2.14.1"
+    "bindings": "1.5.x",
+    "cmake-js": "6.2.x",
+    "nan": "2.15.x"
   },
   "keywords": [
     "crc",
@@ -40,5 +40,5 @@
   },
   "name": "cyclic-rc",
   "main": "index.js",
-  "version": "2.0.11"
+  "version": "2.0.12"
 }

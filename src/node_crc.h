@@ -3,8 +3,6 @@
 
 #include <nan.h>
 
-using namespace v8;
-
 class Crc {
 private:
     static NAN_METHOD(Crc8);
@@ -20,7 +18,7 @@ private:
     static NAN_METHOD(Crc_CCITT_FFFF);
     static NAN_METHOD(Crc_Kermit);
 public:
-    static void Init(Local<Object> exports);
+    static void Init(v8::Local<v8::Object> exports);
 };
 
 #endif
